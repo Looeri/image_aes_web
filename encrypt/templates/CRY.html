@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지 암호화</title>
+    <link rel="stylesheet" href="../static/CRY.css">
+</head>
+<body>
+    <!-- 메뉴바 -->
+    <ui id = "nav"> 
+        <form method="get" action="{% url 'encrypt:go_decrypt' %}" accept-charset="UTF-8">
+        <li><input type="submit" name='redirect', value='encrypt'/></li></form>
+        <li><a href = "#" onclick="window.open('home.html')">홈화면</a></li>
+        <li><a href = "#" onclick="window.open('CRY.html')">암호화</a></li>
+        <li><a href = "#" onclick="window.open('DEC.html')">복호화</a></li>
+        <li><a href = "#" onclick="window.open('me.html')">제작자 소개</a></li>
+        
+    </ui>
+    <div class="container">
+        <div class="title">이미지 암호화</div>
+        <div class="description">
+            사진을 암호화하는 방법에 대해 설명합니다. 암호화 후 사진의 모양, 걸리는 시간 등을 포함합니다.
+        </div>
+        <!-- 파일 업로드 -->
+        <div class="form-group">
+            <label for="upload-photo">암호화할 이미지 (JPG, PNG, 최대 5MB)</label>
+            <input type="file" id="upload-photo" accept="image/*">
+            <div id="preview">
+                <img id="photo-preview" src="#" alt="이미지 미리보기">
+                <span id="photo-filename"></span>
+            </div>
+        </div>
+        <!-- 비밀키 입력 -->
+        <div class="form-group">
+            <label for="encryption-key"> 비밀키 입력 (미입력시 기본키 사용)</label>
+            <input type="password" id="encryption-key" placeholder="가능한 키 형식: 최소 4자, 문자 및 숫자 포함">
+        </div>
+        <!-- 프로필 사진 업로드 -->
+        <div class="form-group">
+            <label for="profile-checkbox">
+                <input type="checkbox" id="profile-checkbox">
+                프로필 사진으로 설정
+            </label>
+        </div>
+        <div class="form-group" id="profile-photo-group" style="display: none;">
+            <label for="upload-profile-photo">프로필 사진 첨부 (JPG, PNG, 최대 5MB)</label>
+            <input type="file" id="upload-profile-photo" accept="image/*">
+            <div id="profile-preview">
+                <img id="profile-photo-preview" src="#" alt="프로필 이미지 미리보기">
+                <span id="profile-photo-filename"></span>
+            </div>
+        </div>
+        <!-- 암호화  -->
+        <button class = 'Sbutton', id="encrypt-button">암호화</button>
+        <div id="encrypted-image">
+            <img id="encrypted-image-preview" src= "{{ crypto_image }}" alt="암호화 된 사진">
+            <button id="save-encrypted-photo">암호화 된 사진 저장</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('upload-photo').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                document.getElementById('photo-filename').textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photo-preview').src = e.target.result;
+                    document.getElementById('preview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('profile-checkbox').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('profile-photo-group').style.display = 'block';
+            } else {
+                document.getElementById('profile-photo-group').style.display = 'none';
+            }
+        });
+
+        document.getElementById('upload-profile-photo').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                document.getElementById('profile-photo-filename').textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-photo-preview').src = e.target.result;
+                    document.getElementById('profile-preview').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('encrypt-button').addEventListener('click', function() {
+            // 여기에 암호화 로직을 추가하세요.
+            // 암호화 된 이미지를 'encrypted-image-preview'에 설정합니다.
+            document.getElementById('encrypted-image').style.display = 'block';
+        });
+
+        document.getElementById('save-encrypted-photo').addEventListener('click', function() {
+            // 여기에 암호화 된 사진 저장 로직을 추가하세요.
+        });
+    </script>
+</body>
+</html>

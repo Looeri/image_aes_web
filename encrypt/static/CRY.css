@@ -1,0 +1,105 @@
+
+body {
+  background-color: rgb(233, 245, 245);
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+/* 메뉴바 */
+#nav{  
+  background-color: #ffffff;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+/* 메뉴바 설정*/
+#nav li{
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+  text-decoration: none;
+  position: relative;
+  left: 40%;
+}
+/* 메뉴바 텍스트 */
+#nav li a {
+  display : block;
+  text-decoration: none;
+  color: black;
+  
+}
+/* 메뉴 클릭시 색깔 변경 */
+#nav li:hover > a {
+  color :rgb(0, 123, 255);
+}
+/* 전체 설정*/
+.container {
+  max-width: 800px;
+  margin: 120px auto 90px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  text-align: center;
+  align-items: center;
+}
+/* 이미지 암호화 텍스트 */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+/* 이미지 암호화 설명 */
+.description {
+  margin-bottom: 20px;
+}
+/* 버튼 크기*/
+.form-group {
+  margin-bottom: 20px;
+}
+label {
+  display: block;
+  margin-bottom: 10px;
+
+}
+/* 박스 크기*/
+input[type="text"], input[type="file"]{
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+/* 비밀키 박스 크기*/
+input[type="password"]{
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+/* 암호화버튼 */
+button {
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.Sbutton:hover {
+  color :rgb(0, 123, 255);
+}
+#preview, #profile-preview {
+  display: none;
+  margin-top: 10px;
+}
+#preview img, #profile-preview img {
+  max-width: 100%;
+  height: auto;
+}
+#encrypted-image {
+  display: none;
+  margin-top: 20px;
+}
+/* 이미지 센터로*/
+img { 
+  display : block;
+  margin : auto;
+}
