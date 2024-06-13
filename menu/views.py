@@ -29,6 +29,8 @@ from django.views import View
     def go_aboutus(request):
         if request.GET.get(['redirect'])=='aboutus':
             return redirect('aboutus:index')'''
+def home_redirect(request):
+    return redirect("home_index")
 
 def home_index(request):
     return render(request, "texts/home.html")
