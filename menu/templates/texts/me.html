@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+	<link rel="stylesheet" href="{% static 'css/me.css' %}">
+  <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+
+  <title>제작자소개</title>
+</head>
+<body>
+  <!-- 메뉴바 -->
+  <!--<ui id = "nav">
+    <li><a href = "#" onclick="window.open('home.html')">홈화면</a></li>
+    <li><a href = "#" onclick="window.open('CRY.html')">암호화</a></li>
+    <li><a href = "#" onclick="window.open('DEC.html')">복호화</a></li>
+    <li><a href = "#" onclick="window.open('me.html')">제작자 소개</a></li>
+  </ui>-->
+  {% include "menu/menu.html" %}
+  <h1>AES를 이용한 사진 암호화 및 복호화</h1>
+</body>
+
+</html>

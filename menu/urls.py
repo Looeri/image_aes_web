@@ -1,9 +1,7 @@
 from django.urls import path
-from .views import Menu
+from . import views
 
 urlpatterns = [
-    path('menu/home',Menu.go_home, name="go_home"),
-    path('menu/encrypt', Menu.go_encrypt, name="go_encrypt"),
-    path('menu/decrypt', Menu.go_decrypt, name="go_decrypt"),
-    path('menu/aboutus', Menu.go_aboutus, name="go_aboutus")
+    path('home',views.home_index, name="home_index"),
+    path('aboutus', views.aboutus_index, name="aboutus_index")
 ]

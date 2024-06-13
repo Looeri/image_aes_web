@@ -5,37 +5,7 @@ body {
   margin: 0;
   padding: 0;
 }
-/* 메뉴바 */
-#nav{  
-  background-color: #ffffff;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-}
-/* 메뉴바 설정*/
-#nav li{
-  float: left;
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 30px 20px;
-  text-decoration: none;
-  position: relative;
-  left: 40%;
-}
-/* 메뉴바 텍스트 */
-#nav li a {
-  display : block;
-  text-decoration: none;
-  color: black;
-  
-}
-/* 메뉴 클릭시 색깔 변경 */
-#nav li:hover > a {
-  color :rgb(0, 123, 255);
-}
+
 /* 전체 설정*/
 .container {
   max-width: 800px;
@@ -44,7 +14,6 @@ body {
   border: 1px solid #ccc;
   border-radius: 20px;
   text-align: center;
-  align-items: center;
 }
 /* 이미지 암호화 텍스트 */
 .title {
@@ -59,6 +28,7 @@ body {
 /* 버튼 크기*/
 .form-group {
   margin-bottom: 20px;
+  
 }
 label {
   display: block;
@@ -71,6 +41,18 @@ input[type="text"], input[type="file"]{
   padding: 10px;
   margin-bottom: 20px;
 }
+.file-input-container {
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 (선택 사항) */
+}
+
+input[type="file"] {
+  width: auto; /* 파일 입력 필드의 너비를 자동으로 설정 */
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
 /* 비밀키 박스 크기*/
 input[type="password"]{
   width: 50%;
@@ -94,7 +76,7 @@ button {
   max-width: 100%;
   height: auto;
 }
-#encrypted-image {
+#encrypt-image {
   display: none;
   margin-top: 20px;
 }

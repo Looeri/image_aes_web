@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_http_methods
 from imageEncrypt.utils import ImageAES
-from forms import decrypt_form
+from .forms import decrypt_form
 
 # Create your views here.
 
 @require_http_methods(["GET"])
 def index(request):
-    return render(request, template_name="index.html")
+    return render(request, template_name="decrypt/DEC.html")
 
 @require_http_methods(["POST"])
 def decrypt(request):

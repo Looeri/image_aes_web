@@ -1,0 +1,31 @@
+/* 메뉴바 */
+#nav{  
+    background-color: #ffffff;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  /* 메뉴바 설정*/
+  #nav li{
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    text-decoration: none;
+    position: relative;
+    left: 40%;
+  }
+  /* 메뉴바 텍스트 */
+  #nav li a {
+    display : block;
+    text-decoration: none;
+    color: black;
+    
+  }
+  /* 메뉴 클릭시 색깔 변경 */
+  #nav li:hover > a {
+    color :rgb(0, 123, 255);
+  }

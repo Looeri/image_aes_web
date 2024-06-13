@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+	<link rel="stylesheet" href="{% static "css/home.css" %}">
+  <link rel="stylesheet" href="{% static "css/menu.css" %}">
+
+  <title>홈화면</title>
+</head>
+<body>
+  <!-- 메뉴바 -->
+  <!--<ui id = "nav">
+    <li><a href = "#" onclick="window.open('home.html')">홈화면</a></li>
+    <li><a href = "#" onclick="window.open('CRY.html')">암호화</a></li>
+    <li><a href = "#" onclick="window.open('DEC.html')">복호화</a></li>
+    <li><a href = "#" onclick="window.open('me.html')">제작자 소개</a></li>
+  </ui>-->
+  {% include "menu/menu.html" %}
+  <div class="container">
+    <h1>AES를 이용한 사진 암호화 및 복호화</h1>
+  </div>
+
+  <div class="container12">
+    <div class="container1">
+      <h2>AES란?</h2>
+      <h3>AES(Advanced Encryption Standard)는 <br>대칭 암호화의 표준으로, 효율적이고<br>안전한 데이터 보호를 위해 사용됩니다.</h3>
+    </div>
+    <div class="container2">
+      <h2>목표</h2>
+      <h3>AES를 사용하여 사진을 <br>암호화하고 복호화하는 것 <br>개인 정보 보호를 강화하고 민감한 데이터를<br> 안전하게 저장하거나 전송하는 데 있습니다.</h3>
+    </div>
+</div>
+</body>
+
+</html>

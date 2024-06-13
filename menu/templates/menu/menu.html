@@ -1,0 +1,9 @@
+<!-- 나중에 메뉴가 필요한 html들에 {+% include (이 파일 이름) %+}(+빼기) 해주면 적용됨-->
+
+
+<ui id = "nav"> 
+    <li><a href = "{% url 'home_index' %}" >홈화면</a></li>
+    <li><a href = "{% url 'encrypt:index' %}" >암호화</a></li>
+    <li><a href = "{% url 'decrypt:index' %}">복호화</a></li>
+    <li><a href = "{% url 'aboutus_index' %}" >제작자 소개</a></li>
+</ui>
