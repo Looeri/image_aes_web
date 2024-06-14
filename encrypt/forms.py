@@ -3,10 +3,20 @@
 from django import forms
 
 
-class encrypt_form(forms.Form): # request에서 들어올 데이터 종류
-    upload_photo=forms.ImageField(allow_empty_file=False,
-                                 error_messages={"required":"해당 항목은 필수입니다."} ) #암호화 해야 하는 이미지
-    key=forms.CharField( initial="Hello Password!", min_length=4,
-                        error_messages={"min_length":"암호의 길이가 너무 짧습니다"}) #암호화할 키(없을시 initial값이 초기값이 됨)
-    preview=forms.ImageField(allow_empty_file=True) #암호화된 이미지 위에 붙일 이미지(없을수도 있음)
+class encrypt_form(forms.Form):
+    upload_photo = forms.ImageField(label='암호화할 이미지 (JPG, PNG, 최대 5MB)',
+                                    widget=forms.ClearableFileInput(attrs={'id' : 'upload_photo', 
+                                                                           'accept' : 'image/*'}))
+    
+    encrypt_key = forms.CharField(label='비밀키 입력 (미입력시 기본키 사용)', max_length=20, required=False,
+                                  widget=forms.PasswordInput(attrs={'id' : 'encrypt_key', 
+                                                                    'placeholder' : "가능한 키 형식: 최대20자, 문자 및 숫자 포함"}))
+    
+    profile_checkbox = forms.BooleanField(label='프로필 사진 추가', required=False,
+                                          widget=forms.CheckboxInput(attrs={'id' : 'profile_checkbox'}))
+    
+    upload_profile_photo = forms.ImageField(label='프로필 사진 첨부 (JPG, PNG, 최대 5MB)', required=False,
+                                            widget=forms.ClearableFileInput(attrs={'id' : 'upload_profile_photo',
+                                                                                   'accept' : 'image/*',
+                                                                                   'style' : "display: none;"}))
 

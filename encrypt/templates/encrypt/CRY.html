@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,101 +6,75 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이미지 암호화</title>
-    <link rel="stylesheet" href="CRY.css">
+    <link rel="stylesheet" href='{% static "css/menu.css" %}'>
+    <link rel="stylesheet" href='{% static "css/CRY.css" %}'>
+
 </head>
 <body>
     <!-- 메뉴바 -->
-    <ui id = "nav"> 
-        <li><a href = "#" onclick="window.open('home.html')">홈화면</a></li>
-        <li><a href = "#" onclick="window.open('CRY.html')">암호화</a></li>
-        <li><a href = "#" onclick="window.open('DEC.html')">복호화</a></li>
-        <li><a href = "#" onclick="window.open('me.html')">제작자 소개</a></li>
-    </ui>
+    {% include "menu/menu.html" %}
+
     <div class="container">
         <div class="title">이미지 암호화</div>
         <div class="description">
             사진을 암호화하는 방법에 대해 설명합니다. 암호화 후 사진의 모양, 걸리는 시간 등을 포함합니다.
         </div>
         <!-- 파일 업로드 -->
-        <div class="form-group">
-            <label for="upload-photo">암호화할 이미지 (JPG, PNG, 최대 5MB)</label>
-            <input type="file" id="upload-photo" accept="image/*">
-            <div id="preview">
-                <img id="photo-preview" src="#" alt="이미지 미리보기">
-                <span id="photo-filename"></span>
-            </div>
+        <form action="" method="post" class="form_group" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="Sbutton" id="encrypt_button">암호화</button>
+        </form>
+
+        {% if encrypt_image_path %}
+        <div id="encrypt_image">
+            <img id="encrypt_image_preview" src="{{ encrypt_image_path }}" alt="암호화 된 사진">
+            <button id="save_encrypt_photo">암호화 된 사진 저장</button>
         </div>
-        <!-- 비밀키 입력 -->
-        <div class="form-group">
-            <label for="encryption-key"> 비밀키 입력 (미입력시 기본키 사용)</label>
-            <input type="password" id="encryption-key" placeholder="가능한 키 형식: 최대20자, 문자 및 숫자 포함">
-        </div>
-        <!-- 프로필 사진 업로드 -->
-        <div class="form-group">
-            <label for="profile-checkbox">
-                <input type="checkbox" id="profile-checkbox">
-                프로필 사진으로 설정
-            </label>
-        </div>
-        <div class="form-group" id="profile-photo-group" style="display: none;">
-            <label for="upload-profile-photo">프로필 사진 첨부 (JPG, PNG, 최대 5MB)</label>
-            <div class="file-input-container">
-                <input type="file" id="upload-profile-photo" accept="image/*">
-            </div>
-            <div id="profile-preview">
-                <img id="profile-photo-preview" src="#" alt="프로필 이미지 미리보기">
-                <span id="profile-photo-filename"></span>
-            </div>
-        </div>
-        
-        <!-- 암호화  -->
-        <button class = 'Sbutton', id="encrypt-button">암호화</button>
-        <div id="encrypted-image">
-            <img id="encrypted-image-preview" src="#" alt="암호화 된 사진">
-            <button id="save-encrypted-photo">암호화 된 사진 저장</button>
-        </div>
+        {% endif %}
     </div>
 
     <script>
-        document.getElementById('upload-photo').addEventListener('change', function() {
+        document.getElementById('upload_photo').addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
-                document.getElementById('photo-filename').textContent = file.name;
+                document.getElementById('photo_filename').textContent = file.name;
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('photo-preview').src = e.target.result;
+                    document.getElementById('photo_preview').src = e.target.result;
                     document.getElementById('preview').style.display = 'block';
                 }
                 reader.readAsDataURL(file);
             }
         });
 
-        document.getElementById('profile-checkbox').addEventListener('change', function() {
+        document.getElementById('profile_checkbox').addEventListener('change', function() {
             if (this.checked) {
-                document.getElementById('profile-photo-group').style.display = 'block';
+                document.getElementById('upload_profile_photo').style.display = 'block';
             } else {
-                document.getElementById('profile-photo-group').style.display = 'none';
+                document.getElementById('upload_profile_photo').style.display = 'none';
             }
         });
 
-        document.getElementById('upload-profile-photo').addEventListener('change', function() {
+        document.getElementById('upload_profile_photo').addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
-                document.getElementById('profile-photo-filename').textContent = file.name;
+                document.getElementById('profile_photo_filename').textContent = file.name;
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('profile-photo-preview').src = e.target.result;
-                    document.getElementById('profile-preview').style.display = 'block';
+                    document.getElementById('profile_photo_preview').src = e.target.result;
+                    document.getElementById('profile_preview').style.display = 'block';
                 }
                 reader.readAsDataURL(file);
             }
         });
 
-        document.getElementById('encrypt-button').addEventListener('click', function() {
-            document.getElementById('encrypted-image').style.display = 'block';
-        });
-
-        document.getElementById('save-encrypted-photo').addEventListener('click', function() {
+        document.getElementById('save_encrypt_photo').addEventListener('click', function() {
+            const encryptImage = document.getElementById('encrypt_image_preview');
+            const link = document.createElement('a');
+            link.href = encryptImage.src;
+            link.download = '{{ encrypt_image_name }}'; // 다운로드 파일명 설정
+            link.click();
         });
     </script>
 </body>

@@ -1,10 +1,11 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 app_name='decrypt'
 urlpatterns=[
     path("decrypt/", views.index, name='index'),
-    path('encrypt/', views.go_encrypt, name="go_encrypt")
     
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

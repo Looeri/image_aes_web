@@ -15,97 +15,47 @@
     <div class="container">
         <div class="title">이미지 복호화</div>
         <div class="description">
-            사진을 복호화하는 방법에 대해 설명합니다. 암호화 후 사진의 모양, 걸리는 시간 등을 포함합니다.
+            사진을 복호화하는 방법에 대해 설명합니다. 복호화 후 사진의 모양, 걸리는 시간 등을 포함합니다.
         </div>
         <!-- 복호화할 파일 업로드 upload-photo-->
-    <form action="URL" method="get" class="form-group">
-        <div class="form-group">
-            <label for="upload-photo">복호화할 이미지 (해당 사이트에서 암호화한 사진만 가능합니다.)</label>
-                <input type="file" id="upload-photo" accept="image/*">
-            <div id="preview">
-                <img id="photo-preview" src="#" alt="이미지 미리보기">
-                <span id="photo-filename"></span>
-            </div>
+    <form action="" method="post" class="form_group" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="Sbutton" id="Decrypt_button">복호화</button>
+    </form>
+
+    {% if decrypt_image_path %}
+        <div id="Decrypt_image">
+            <img id="Decrypt_image_preview" src="{{ decrypt_image_path }}" alt="복호화 된 사진">
+            <button id="save_Decrypt_photo">복호화 된 사진 저장</button>
         </div>
-        <!-- 비밀키 입력 Decrypt-key-->
-        <div class="form-group">
-            <label for="Decrypt-key"> 비밀키 입력 (미입력시 기본키 사용)</label>
-            <input type="password" id="Decrypt-key" placeholder="가능한 키 형식: 최대20자, 문자 및 숫자 포함">
-        </div>
-        <!-- 프로필 사진 업로드 체크박스 -->
-        <div class="form-group">
-            <label for="profile-checkbox">
-                <input type="checkbox" id="profile-checkbox">
-                프로필 사진으로 설정
-            </label>
-        </div>
-        <!-- 프로필 사진 업로드 profile-checkbox -->
-        <div class="form-group" id="profile-photo-group" style="display: none;">
-            <label for="upload-profile-photo">프로필 사진 첨부 (JPG, PNG, 최대 5MB)</label>
-            <div class="file-input-container">
-                <input type="file" id="upload-profile-photo" accept="image/*">
-            </div>
-            <!-- 프로필 사진 미리보기-->
-            <div id="profile-preview">
-                <img id="profile-photo-preview" src="#" alt="프로필 이미지 미리보기">
-                <span id="profile-photo-filename"></span>
-            </div>
-        </div>
-        
-        <!-- 복호화  Decrypt-imag-->
-        <button class = 'Sbutton', id="Decrypt-button">복호화</button>
-        <div id="Decrypt-image">
-            <img id="Decrypt-image-preview" src="#" alt="복호화 된 사진">
-            <button id="save-Decrypt-photo">복호화 된 사진 저장</button>
-        </div>
-    </from>
+    {% endif %}
 
     <script>
          // 복호화할 이미지 (upload-photo)
-        document.getElementById('upload-photo').addEventListener('change', function() {
+        document.getElementById('upload_photo').addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
-                document.getElementById('photo-filename').textContent = file.name; // 파일명 표시
+                document.getElementById('photo_filename').textContent = file.name; // 파일명 표시
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('photo-preview').src = e.target.result;
+                    document.getElementById('photo_preview').src = e.target.result;
                     document.getElementById('preview').style.display = 'block';
                 }
                 reader.readAsDataURL(file); // 파일 미리보기
             }
         });
-        // 체크박스(프로필 사진)profile-checkbox
-        document.getElementById('profile-checkbox').addEventListener('change', function() {
-            if (this.checked) { // 체크박스 선택된 경우
-                document.getElementById('profile-photo-group').style.display = 'block'; // 업로드 그룹 표시
-            } else {
-                document.getElementById('profile-photo-group').style.display = 'none'; // 업로드 그룹 숨김
-            }
-        });
-        // 프로필 사진 (upload-profile-photo)
-        document.getElementById('upload-profile-photo').addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                document.getElementById('profile-photo-filename').textContent = file.name;
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('profile-photo-preview').src = e.target.result;
-                    document.getElementById('profile-preview').style.display = 'block';
-                }
-                reader.readAsDataURL(file); // 파일 미리보기
-            }
-        });
 
-        document.getElementById('Decrypt-button').addEventListener('click', function() { // 복호화버튼 클릭시
-            document.getElementById('Decrypt-image').style.display = 'block';  // 복호화 이미지 보임
+        document.getElementById('Decrypt_button').addEventListener('click', function() { // 복호화버튼 클릭시
+            document.getElementById('Decrypt_image').style.display = 'block';  // 복호화 이미지 보임
         });
 
          // 'save-Decrypt-photo' 클릭 시 
-        document.getElementById('save-Decrypt-photo').addEventListener('click', function() {
-        const DecryptImage = document.getElementById('Decrypt-image-preview');
+        document.getElementById('save_Decrypt_photo').addEventListener('click', function() {
+        const DecryptImage = document.getElementById('Decrypt_image_preview');
         const link = document.createElement('a');
         link.href = DecryptImage.src;
-        link.download = 'decrypted-image.png'; // 다운로드 파일명 설정
+        link.download = '{{ decrypt_image_name }}'; // 다운로드 파일명 설정
         link.click();
         });
          

@@ -119,10 +119,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_ROOT='/media/example/'  # 아마 이미지가 저장되는 db 경로
+STATICFILES_DIRS = [BASE_DIR / 'static',]
+MEDIA_ROOT=BASE_DIR / 'media'  # 아마 이미지가 저장되는 db 경로
 MEDIA_URL = '/media/'  #아마 이미지 관리에 필요한 url?
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Celery settings
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Seoul'
