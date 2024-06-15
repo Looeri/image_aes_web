@@ -12,7 +12,7 @@ def index(request):
 
             aes_module=ImageAES()
             plain_image = form.cleaned_data.get('upload_photo')
-            key = form.cleaned_data.get('Decrypt_key')
+            key = form.cleaned_data.get('decrypt_key')
             if key is not None : aes_module.key=key
 
             decrypt_dir = os.path.join(settings.MEDIA_ROOT, 'decrypt_images')
@@ -25,4 +25,4 @@ def index(request):
                                                         'decrypt_image_name':decrypt_image_name})
     else :
         form=decrypt_form()
-    return render(request,"decrypt/DEC.html", {'form':form})
+        return render(request,"decrypt/DEC.html", {'form':form})

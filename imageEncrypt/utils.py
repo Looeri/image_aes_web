@@ -35,8 +35,6 @@ class ImageAES():
         pimage=np.array(pil_pimage.convert('RGB'))[:,:,::-1]            #사용자에게서 받아온 이미지를 저장하지 않고 views에서 줄 수 있어서 바로 받아오기로 함
         pimage_height, pimage_width, color=pimage.shape      # 이미지를 Mat 클래스로 가져온다. shape=(height, width, 3)이다
         pimage_name=os.path.splitext(plain_image.name)[0]
-        
-        print(pimage[0,0,:])
 
         #이미지 패딩하기(AES 블록 크기(16bytes, 128bit) 맞추기 + 복호화를 위한 높이값 저장)
         pad_height= 16-(pimage_height%16)   #1~16값을 가짐 (복호화 시 높이를 알기 위해 직접 패딩함)
@@ -55,8 +53,6 @@ class ImageAES():
             pad_image[0,0,0]+=int(height_2[:-16],2)
         pad_image[0,1,2]+=pad_height  #두번째 px(0,1)에 패딩 높이를 적어놓는다
 
-        print(pad_image[0,0,:])
-
         #이미지 암호화 및 복호화 대비(상하반전)
         crypto_data=self.aes.encrypt(pad_image.tobytes()) 
         crypto_image=np.frombuffer(crypto_data, dtype=np.uint8).reshape(pimage_height+pad_height,pimage_width,color)
@@ -64,8 +60,6 @@ class ImageAES():
 
         #프리뷰 사진이 존재한다면(프리뷰 이미지 가져오기 및 비율 조정)
         if preview != None:  
-            #ppath=np.fromfile(preview,np.uint8)   #프리뷰명이 한글이면 오류나니 경로 바꿔 부름 2
-            #preview=cv.imdecode(ppath,cv.IMREAD_UNCHANGED)
             predata=preview.read()
             pil_preimage=Image.open(BytesIO(predata))
             preview=np.array(pil_preimage.convert('RGB'))[:,:,::-1]
@@ -77,14 +71,14 @@ class ImageAES():
             preview_height= int(preview_height*preview_ratio)
 
             preview=cv.resize(preview, (preview_width,preview_height))  # 프리뷰와 암호화할 사진의 가로 길이가 같아짐
-            print(preview.shape, crypto_image.shape)
+
             crypto_image=np.vstack((preview, crypto_image))
 
         image_name=f"{pimage_name}_en.png"
         image_path=os.path.join(save_dir, image_name)
         cv.imwrite(image_path, crypto_image, [cv.IMWRITE_PNG_COMPRESSION,0])
 
-        print(crypto_image[0,0,:])
+
 
         return image_name
 
@@ -96,15 +90,20 @@ class ImageAES():
         cimage=np.flipud(np.array(pil_cimage.convert('RGB'))[:,:,::-1])   #encrypt()에서 프리뷰를 대비해 상하반전했으니 다시 상하반전해준다
         cimage_height, cimage_width, color=cimage.shape      # 이미지를 Mat 클래스로 가져온다. shape=(height, width, 3)이다
         cimage_name=os.path.splitext(crypto_image.name)[0]
+        print(cimage.shape)
 
-        print(cimage[0,0,:])
+
 
 
         #이미지 복호화
-        encrypt_data=self.aes.decrypt(cimage.tobytes())  #위 원본데이터 아래 복호화에 영향받은 프리뷰(어차피 짜를거라 상관없음)
-        encrypt_image=np.frombuffer(encrypt_data, dtype=np.uint8).reshape(cimage_height, cimage_width, color)
+        pad_height= 16-(cimage_height%16)   #1~16값을 가짐 (복호화 시 높이를 알기 위해 직접 패딩함)
+        pad_height = 16 if pad_height == 0 else pad_height
+        cimage_pad=np.vstack((cimage, np.zeros((pad_height,cimage_width,color), dtype=np.uint8)))
+        print(cimage_pad.shape)
+        encrypt_data=self.aes.decrypt(cimage_pad.tobytes())  #위 원본데이터 아래 복호화에 영향받은 프리뷰(어차피 짜를거라 상관없음) 더아래 패딩
+        encrypt_image=np.frombuffer(encrypt_data, dtype=np.uint8).reshape(cimage_height+pad_height, cimage_width, color)
 
-        print(encrypt_image[0,0,:])
+
 
 
         #원본 높이 및 패딩 높이 찾기(암호화할 때 패딩의 제일 앞 1px(3byte)는 원본 높이, 다음 1px는 패딩 높이, 나머지는 0으로 채웠다 )
@@ -121,7 +120,7 @@ class ImageAES():
         image_path=os.path.join(save_dir, image_name)
         cv.imwrite(image_path, plain_image)
 
-        print(plain_image[0,0,:])
+
 
         return image_name
 
@@ -134,12 +133,3 @@ def delete_old_images(folder_path, hours=24):
             creation_time = os.path.getctime(file_path)
             if current_time - creation_time > hours * 3600:
                 os.remove(file_path)
-
-
-
-        
-
-
-        
-
-        

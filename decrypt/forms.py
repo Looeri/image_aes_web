@@ -7,7 +7,7 @@ class decrypt_form(forms.Form):
                                     widget=forms.ClearableFileInput(attrs={'id' : 'upload_photo', 
                                                                            'accept' : 'image/*'}))
     
-    encrypt_key = forms.CharField(label='비밀키 입력 (미입력시 기본키 사용)', max_length=20, required=False,
+    decrypt_key = forms.CharField(label='비밀키 입력 (미입력시 기본키 사용)', max_length=20, required=False,
                                   widget=forms.PasswordInput(attrs={'id' : 'Decrypt_key', 
                                                                     'placeholder' : "가능한 키 형식: 최대20자, 문자 및 숫자 포함"}))
     
