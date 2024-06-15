@@ -17,7 +17,8 @@
     <div class="container">
         <div class="title">이미지 암호화</div>
         <div class="description">
-            사진을 암호화하는 방법에 대해 설명합니다. 암호화 후 사진의 모양, 걸리는 시간 등을 포함합니다.
+            AES의 모드 중 CBC 모드로 사진을 암호화합니다. 암호화된 사진은 PNG 형식이고, 원본과 동일한 크기입니다. 
+            해당 사진이 압축 등의 이유로 변형될 경우 복호화가 불가능할 수도 있습니다.
         </div>
         <!-- 파일 업로드 -->
         <form action="" method="post" class="form_group" enctype="multipart/form-data">
